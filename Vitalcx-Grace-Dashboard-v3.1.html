@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<!-- saved from url=(0141)file:///Users/davidmoreno/Dropbox/__Projects/VCX-Dashboard/_VitalCX-Grace%20Dashboard-Ref/VitalCX-Grace-Dashboard-v26u-Figma-Pixel-Match.html -->
+<!-- saved from url=(0139)file:///Users/davidmoreno/Dropbox/__Projects/VCX-Dashboard/_VitalCX-Grace%20Dashboard-Ref/VitalCX-Grace-Dashboard-v26v-Tighten-Spacing.html -->
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=1440">
-<title>Grace — VitalCX Health (Branded · -UI v26u-Spacing-Match)</title>
+<title>Grace — VitalCX Health (Branded · -UI v26v-Tighten-Spacing)</title>
 
 <!-- ═══════════════════════════════════════════════════════════════
      VitalCX BRAND LAYER — Apr 23, 2026 (v2)
@@ -7177,6 +7177,60 @@ textarea.aa-field-input{resize:vertical;min-height:76px}
 }
 /* ═══════════════════════════════════════════════════════════════════════
    end of -UI v26u
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════
+   -UI v26v · TIGHTEN KPI VERTICAL SPACING (May 1, 2026)
+   The actual reason elements were pushed down: line-height: normal on
+   label/trend/helper resolves to ~1.2-1.5 in browsers, eating extra
+   vertical space. Figma renders these tight. Lock everyone to 1.0 for
+   text elements. Hero top block locked to h-86 per Figma 2502-41097.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Hero top group · fixed 86px height per Figma */
+.gl-kpi-card.hero .gl-kpi-block {
+  height: 86px !important;
+  min-height: 86px !important;
+  flex: 0 0 86px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Tight line-heights on text elements — kills extra vertical padding
+   from line-height: normal (which was 1.2-1.5x font size). */
+.gl-kpi-label,
+.ov-kpi-lbl,
+.kpi-lbl,
+.sp-kpi-lbl,
+.kpi-lbl-sub {
+  line-height: 1 !important;
+  padding: 0 !important;
+}
+.gl-kpi-trend,
+.ov-kpi-trend,
+.kpi-trend,
+.sp-kpi-sub {
+  line-height: 1 !important;
+  padding: 0 !important;
+}
+.gl-kpi-helper,
+.ov-kpi-helper,
+.kpi-helper,
+.sp-kpi-helper {
+  line-height: 1 !important;
+  padding: 0 !important;
+}
+.gl-kpi-value,
+.ov-kpi-val,
+.kpi-v-xl,
+.kpi-v-lg,
+.sp-kpi-val,
+.kpi-v-out {
+  line-height: 1 !important;
+  padding: 0 !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   end of -UI v26v
    ═══════════════════════════════════════════════════════════════════════ */
 </style>
 </head>
