@@ -192,14 +192,15 @@ html, body { background: #DFE2EC !important; }
   padding: 16px 18px 8px !important;
 }
 
-/* nav-item: 36px height, 12px regular, 16px icon, gap 10px, rounded 6px.
-   Inactive bg white; active bg rgba(0,99,255,0.1) + 12px medium. */
+/* nav-item: 36px height, 12px Medium (Figma 2401:2878), 16px icon, gap
+   10px, rounded 6px. v27.23 — rest weight lifted 400→500 per Dave note
+   to align all section text with the Albert Sans Medium spec. */
 .nav-item {
   height: 36px !important;
   padding: 9px 10px !important;
   margin: 0 8px 4px !important;
   font-size: 12px !important;
-  font-weight: 400 !important;
+  font-weight: 500 !important;
   color: #575a66 !important;
   border-radius: 6px !important;
   background: #ffffff !important;
@@ -215,13 +216,13 @@ html, body { background: #DFE2EC !important; }
 }
 .nav-item .nav-ico { width: 16px; height: 16px; flex-shrink: 0; }
 
-/* nav-add: same row spec but charcoal-light text. */
+/* nav-add: same row spec; v27.23 weight 400→500 to match sibling items. */
 .nav-add {
   height: 36px !important;
   padding: 9px 10px !important;
   margin: 0 8px 4px !important;
   font-size: 12px !important;
-  font-weight: 400 !important;
+  font-weight: 500 !important;
   color: #575a66 !important;
   border-radius: 6px !important;
   background: #ffffff !important;
@@ -361,10 +362,10 @@ html, body { background: #DFE2EC !important; }
   border-bottom: 1px solid #cfd4e2;
   padding: 18px 20px !important;
   margin: -16px -20px 0 !important;        /* extend to page edge, eat parent padding */
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  box-shadow: 0 1px 0 rgba(0,0,0,0); /* placeholder; can elevate on scroll later */
+  /* v27.23 — page header un-stickied per Dave note. Sticky was eating
+     too much real estate on long-scroll pages; the header now scrolls
+     away with content like a normal block element. (Was: position:
+     sticky; top: 0; z-index: 5; box-shadow: 0 1px 0 transparent.) */
 }
 .page > .sp-heading .sp-heading-title {
   font-family: var(--vcx-font-display);
@@ -576,7 +577,7 @@ html, body { background: #DFE2EC !important; }
   padding: 9px 10px !important;
   margin: 0 8px 4px !important;
   font-size: 12px !important;
-  font-weight: 400 !important;
+  font-weight: 500 !important; /* v27.23 — section text Medium per Figma 2401:2878 */
   color: #575a66 !important;
   border-radius: 6px !important;
   background: #ffffff !important;
@@ -617,7 +618,7 @@ html, body { background: #DFE2EC !important; }
   padding: 9px 10px !important;
   margin: 0 8px 4px !important;
   font-size: 12px !important;
-  font-weight: 400 !important;
+  font-weight: 500 !important; /* v27.23 — sidebar text Medium per Figma 2401:2878 */
   color: #575a66 !important;
   border-radius: 6px !important;
   background: #ffffff !important;
@@ -1551,9 +1552,9 @@ html, body { background: #DFE2EC !important; }
   box-sizing: border-box !important;
   background: #ffffff !important;
   border-bottom: 1px solid #cfd4e2 !important;
-  position: sticky;
-  top: 0;
-  z-index: 5;
+  /* v27.23 — un-stickied per Dave note (May 6). Heading scrolls away with
+     content like a normal block element — frees vertical real estate on
+     long-scroll pages. (Was: position: sticky; top: 0; z-index: 5.) */
 }
 
 /* — Scheduling + QA headers: align-items LEFT (not centered).
@@ -4145,103 +4146,170 @@ select.qa-inp{appearance:none;-webkit-appearance:none;-moz-appearance:none;paddi
 .aa-overlay { transition: none !important; }
 .aa-panel   { transition: none !important; }
 
-/* ── Agent catalog card redesign ── */
+/* ════════════════════════════════════════════════════════════════
+   v27.23 — Agent Card rebuilt to Figma 2632:89783.
+   ────────────────────────────────────────────────────────────────
+   Spec (vertical, rest state):
+   · Card  : white bg, 10px radius, 20px padding, gap 16 between
+             header / video / bottom blocks
+   · Header: row, gap 12; left titlestack (Name Fields Regular 22 +
+             Type Albert Sans Medium 12 #0063FF); right status chip
+   · Status: pill — Available green / Early amber / Coming gray /
+             Custom blue. Albert Sans SemiBold 10 uppercase, padding
+             8/6, full-pill radius
+   · Video : 113px tall, full-width, 8px radius, cover-fit; play
+             overlay disabled to match Figma showPlay=false variant
+   · Desc  : Albert Sans Regular 13 #575A66, line-height 20
+   · Action: row, gap 20, equal flex; Watch Demo (#f5f9ff/#c7ddff
+             text #575A66) + Start Setup (#0063FF white). Albert
+             Sans Medium 12, padding 12/20, 8px radius
+   ──────────────────────────────────────────────────────────────── */
 .aa-catalog-grid {
   display: grid;
-  grid-template-columns: repeat(3,1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   padding: 4px 2px;
 }
 .aa-cat-card {
   background: #fff;
-  border: 1.5px solid #e5e5e1;
-  border-radius: 14px;
-  padding: 24px;
+  border: 1px solid #e5e5e1;
+  border-radius: 10px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 16px;
   transition: border-color .15s, box-shadow .15s;
   overflow: visible;
 }
-.aa-cat-card:hover { border-color: #b8d0e8; box-shadow: 0 4px 16px rgba(0,0,0,.08); }
-.aa-cat-card.available { cursor: pointer; }
-.aa-cat-card.early { border-color: #f0dfc0; }
-.aa-cat-card.coming { opacity: .85; }
+.aa-cat-card:hover { border-color: #b8d0e8; box-shadow: 0 4px 16px rgba(0,0,0,.06); }
+.aa-cat-card.available { cursor: default; }
+.aa-cat-card.coming { opacity: .9; }
 
-/* Badge, name, type — all at top before video */
-.aa-cat-body { display: flex; flex-direction: column; flex: 1; }
-.aa-cat-badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 3px 9px; border-radius: 99px; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 12px; width: fit-content; }
-.badge-available { background: #eaf3de; color: #3b6d11; }
-.badge-early     { background: #faeeda; color: #854f0b; }
-.badge-coming    { background: #f0f0ee; color: #666; }
-.aa-cat-name { font-size: 17px; font-weight: 600; color: #1a1a1a; margin-bottom: 5px; line-height: 1.2; }
-.aa-cat-type { font-size: 12px; font-weight: 500; color: #2f7fc9; margin-bottom: 16px; }
+/* Header: titlestack + status chip */
+.aa-cat-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+}
+.aa-cat-titlestack {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.aa-cat-name {
+  font-family: 'Fields','Fields Display','Fraunces',Georgia,serif;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+  color: #1c1a19;
+}
+.aa-cat-type {
+  font-family: 'Albert Sans', system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #0063FF;
+}
 
-/* Video thumbnail — half width, left-aligned */
+/* Status chip */
+.aa-cat-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  font-family: 'Albert Sans', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.aa-cat-status.status-available { background: #eaf3de; border-color: #a8d5a2; color: #3b6d11; }
+.aa-cat-status.status-early     { background: #faeeda; border-color: #fac775; color: #854f0b; }
+.aa-cat-status.status-coming    { background: #f0f0ee; border-color: #d8d8d3; color: #575A66; }
+.aa-cat-status.status-custom    { background: #d8e7ff; border-color: #a3c7ff; color: #093881; }
+
+/* Video thumb — full width, 113px tall, no play overlay */
 .aa-cat-video {
   width: 100%;
-  max-width: 240px;
-  aspect-ratio: 16/9;
+  height: 113px;
+  border-radius: 8px;
   background: #d0e4f5;
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
-  border-radius: 6px;
-  margin-bottom: 16px;
   cursor: pointer;
+  background-size: cover;
+  background-position: center;
 }
-.aa-cat-video:hover .aa-cat-play { background: rgba(0,0,0,.22); }
-.aa-cat-video-bg {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.aa-cat-play {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(0,0,0,.14);
-  border: 1.5px solid rgba(0,0,0,.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background .15s, transform .15s;
-}
-.aa-cat-play:hover { background: rgba(0,0,0,.24); transform: scale(1.06); }
-.aa-cat-play svg { margin-left: 2px; }
+.aa-cat-video-bg { position: absolute; inset: 0; }
 .aa-cat-video-label {
   position: absolute;
   bottom: 7px;
   left: 10px;
   font-size: 9px;
   font-weight: 500;
-  color: rgba(0,0,0,.4);
+  color: rgba(0,0,0,.45);
   letter-spacing: .03em;
 }
 
-/* Description + CTA */
-.aa-cat-desc { font-size: 12px; color: #777; line-height: 1.55; margin-bottom: 18px; flex: 1; }
-.aa-cat-cta {
-  display: inline-block;
-  padding: 10px 22px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  border: none;
-  transition: all .15s;
-  width: auto;
-  align-self: flex-start;
+/* Bottom: description + actions, gap 20 */
+.aa-cat-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
-.cta-add      { background: #0063FF; color: #fff; }
-.cta-add:hover{ background: #0051CF; }
-.cta-interest { background: #fff; color: #854f0b; border: 1.5px solid #f0dfc0; }
-.cta-interest:hover { background: #faeeda; }
-.cta-notify   { background: #fff; color: #888; border: 1.5px solid #e5e5e1; cursor: pointer; }
-.cta-notify:hover { background: #f5f5f3; }
+.aa-cat-desc {
+  font-family: 'Albert Sans', system-ui, sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  color: #575A66;
+}
+.aa-cat-actions {
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+}
+.aa-cat-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-family: 'Albert Sans', system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 18px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+  border: 1px solid transparent;
+}
+.aa-cat-btn-watch {
+  background: #f5f9ff;
+  border-color: #c7ddff;
+  color: #575A66;
+}
+.aa-cat-btn-watch:hover { background: #e6efff; }
+.aa-cat-btn-start {
+  background: #0063FF;
+  border-color: #0063FF;
+  color: #fff;
+}
+.aa-cat-btn-start:hover { background: #0051CF; border-color: #0051CF; }
+
+/* Legacy CTA classes (preserve as no-op aliases for any external callers
+   that still reference them; new markup uses .aa-cat-btn-*). */
+.aa-cat-cta { display: none !important; }
 
 /* ── Progress indicator redesign ── */
 .aa-progress {
@@ -4633,41 +4701,93 @@ body.grace-fab-scope .grace-fab-wrap { display: block; }
 
 
 #aaWizardContent{display:none;width:100%;}
-.aa-panel-body{flex:1;min-height:0;overflow-y:auto;padding:28px 40px;box-sizing:border-box;}
 
-/* ── Overlay: FULL viewport so the backdrop also covers topbar + sidebar
-   (v20 Apr 23 PM — sidebar/topbar nav were still clickable behind the
-   panel, which felt broken. Backdrop now blocks all outside chrome and
-   click-outside closes via .aa-backdrop handler.) ── */
-.aa-overlay{inset:0 !important;top:0 !important;left:0 !important;right:0 !important;bottom:0 !important;}
-.aa-backdrop{background:rgba(15,22,40,.48) !important;backdrop-filter:blur(2px) !important}
+/* ════════════════════════════════════════════════════════════════
+   v27.23 (May 6) — Add Grace Agent: overlay → page conversion.
+   ────────────────────────────────────────────────────────────────
+   The old aa-overlay/aa-panel/aa-backdrop chrome is retired. The
+   surface now lives as #page-add-agent inside .main, reached via
+   showPage('add-agent'). Header rebuilt to Figma 2632:90147; agent
+   cards rebuilt to Figma 2632:89783.
+   ──────────────────────────────────────────────────────────────── */
 
-/* ── Panel: sits below topbar + right of sidebar inside the full overlay ── */
-.aa-panel{position:absolute !important;top:60px !important;left:210px !important;right:0 !important;bottom:0 !important;transform:none !important;display:flex !important;flex-direction:column !important;overflow:hidden !important;}
-.aa-overlay.open .aa-panel{transform:none !important;}
+/* Neutralize legacy overlay rules so nothing positions absolutely
+   anymore (the markup is gone; this guards against any stale callers). */
+.aa-overlay,.aa-backdrop,.aa-panel,.aa-panel-hdr,.aa-cancel-dialog{
+  position:static !important;background:transparent !important;
+  inset:auto !important;display:none !important;
+}
 
-/* ── Header: lock height so wizard top can reference it reliably ── */
-.aa-panel-hdr{flex-shrink:0 !important;min-height:72px !important;height:72px !important;padding-top:0 !important;padding-bottom:0 !important;align-items:center !important;}
+/* Page-add-agent: lay the catalog/wizard out as a normal page surface.
+   The base .page{display:none}/.page.active{display:flex} pattern from
+   the global stylesheet handles visibility — DON'T re-set display here
+   or the page bleeds onto every other view (v27.23 hotfix). The .page
+   default already owns padding (0 20px 20px) + overflow scroll; the
+   header eats the side padding via negative margins so it stays edge
+   to edge against the topbar. */
+#page-add-agent.active{flex-direction:column;}
 
-/* ── Wizard pane: FIXED positioning (Apr 23 v3 fix) ──
-   Two prior attempts (absolute vs. flex:1) both failed — wizard either
-   escaped its containing block or collapsed into an empty gray pane.
-   Root cause: .aa-panel's position:absolute wasn't resolving as a
-   containing-block ancestor in this render (likely because aa-panel's
-   flex layout + overflow:hidden was interacting with computed styles
-   in a way we couldn't fully trace). Fix: pin the wizard with
-   position:fixed and explicit viewport-relative coordinates
-   (60px topbar + 72px panel header = 132px top; 210px sidebar = left).
-   opacity on .aa-overlay still hides/shows the wizard with the panel. */
-.aa-panel-wizard{position:fixed !important;top:132px !important;left:210px !important;right:0 !important;bottom:0 !important;padding:28px 40px !important;box-sizing:border-box !important;overflow-y:auto !important;background:#f0f1f3 !important;z-index:905 !important;}
+/* ── Header (Figma 2632:90147) ─────────────────────────────────
+   #e0e3ed bg, pt 32 / pb 20 / px 20, gap 24 between text + actions.
+   Title  : Fields Medium 22 #1c1a19
+   Sub    : Albert Sans Regular 14 #575A66
+   Actions: Save for later (secondary, hidden in catalog) +
+            Contact Support (primary blue) — Albert Sans Medium 12. */
+#page-add-agent > .aap-hdr{
+  margin:0 -20px !important;
+  padding:32px 20px 20px !important;
+  background:#e0e3ed;
+  display:flex;align-items:flex-start;gap:24px;
+  flex-shrink:0;
+}
+.aap-hdr-text{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:16px;}
+.aap-hdr-title{
+  font-family:'Fields','Fields Display','Fraunces',Georgia,serif;
+  font-weight:500;font-size:22px;line-height:1.2;color:#1c1a19;
+}
+.aap-hdr-sub{
+  font-family:'Albert Sans',system-ui,sans-serif;
+  font-weight:400;font-size:14px;line-height:1.3;color:#575A66;
+}
+.aap-hdr-actions{display:flex;align-items:center;gap:12px;flex-shrink:0;align-self:stretch;}
+.aap-hdr-save{
+  display:none;align-items:center;justify-content:center;
+  padding:12px 20px;border-radius:8px;
+  background:#f5f9ff;border:1px solid #c7ddff;
+  font-family:'Albert Sans',system-ui,sans-serif;font-weight:500;
+  font-size:12px;line-height:18px;color:#575A66;cursor:pointer;
+  transition:background .15s;
+}
+.aap-hdr-save:hover{background:#e6efff;}
+.aap-hdr-support{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:12px 20px;border-radius:8px;border:none;
+  background:#0063FF;color:#fff;
+  font-family:'Albert Sans',system-ui,sans-serif;font-weight:500;
+  font-size:12px;line-height:18px;cursor:pointer;
+  transition:background .15s;
+}
+.aap-hdr-support:hover{background:#0051CF;}
+.aap-hdr-support svg{flex-shrink:0;}
 
-/* ── Cancel confirmation dialog: pin to viewport so it floats ABOVE
-   the z-index:905 wizard. Was z-index:100 inside .aa-panel-hdr's
-   stacking context, which the fixed-position wizard cleared. ── */
-.aa-cancel-dialog{position:fixed !important;top:72px !important;right:20px !important;z-index:920 !important;}
-
-/* ── Catalog body: flex child filling remaining space (catalog view) ── */
-.aa-panel-body{flex:1 !important;min-height:0 !important;overflow-y:auto !important;}
+/* ── Catalog body + wizard pane inside page-add-agent ─────────
+   Critical: do NOT set `display: …!important` here. aaShowStep()
+   toggles the catalog vs. the wizard via inline `style.display`,
+   and an !important rule in CSS would beat the JS-driven inline
+   style — leaving both panes visible at once. The base `.page`
+   rule already sets `display:flex` on `.page.active`; everything
+   else just needs to flow naturally as a block child. */
+#page-add-agent .aa-panel-body{
+  flex:0 0 auto;
+  padding:0;background:transparent;
+  overflow:visible;min-height:0;
+  width:100%;
+}
+#page-add-agent .aa-step{display:block;}
+#page-add-agent .aa-panel-wizard{
+  background:transparent;padding:0;
+  width:100%;
+}
 
 /* ── Footer stays hidden ── */
 #aaFooter{display:none !important;}
@@ -5190,19 +5310,15 @@ textarea.aa-field-input{resize:vertical;min-height:76px}
 /* — 1. PAGE HEADER PATTERN (Figma 2428-33767 et al.) ─────────────────────
    Every page's .sp-heading band restyled to the new global pattern.
    Eats parent .page padding via negative margin so the band is full-bleed.
-   Sticky on scroll; .is-stuck modifier hooks an optional shadow elevation. */
+   v27.23 (May 6) — un-stickied per Dave global note. The heading scrolls
+   away with content like a normal block element; .is-stuck modifier and
+   sticky positioning retired. (Was: position: sticky; top: 0; z-index: 5
+   + .is-stuck shadow elevation rule.) */
 .page > .sp-heading {
   background: #E0E3ED !important;
   padding: 32px 20px 20px 20px !important;
   margin: -20px -20px 0 !important;
   border-bottom: none !important;
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  transition: box-shadow .15s ease;
-}
-.page > .sp-heading.is-stuck {
-  box-shadow: 0 2px 8px rgba(28, 26, 25, 0.06);
 }
 .page > .sp-heading .sp-heading-title {
   font-family: var(--vcx-font-display) !important;
@@ -8769,11 +8885,11 @@ textarea.aa-field-input{resize:vertical;min-height:76px}
   position: static !important;
   z-index: auto !important;
 }
-/* Make sure the sp-heading band on Callback Queue stays sticky and on top */
+/* v27.23 — un-stickied per global Dave note. Background tint on the
+   Callback Queue heading preserved. (Was: position: sticky; top: 0;
+   z-index: 6 — kept the heading pinned over the table; now it scrolls
+   away with content like every other section header.) */
 #page-callback > .sp-heading {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 6 !important;
   background: #E0E3ED !important;
 }
 
@@ -9991,7 +10107,7 @@ textarea.aa-field-input{resize:vertical;min-height:76px}
 }
 .sp-heading.sp-heading-v27 .sp-heading-title {
   font-family: 'Fields', 'Albert Sans', serif;
-  font-weight: 400;
+  font-weight: 500; /* v27.23 — section header weight lifted Regular→Medium globally */
   font-size: 22px;
   line-height: normal;
   color: #1c1a19;
@@ -10754,6 +10870,229 @@ textarea.aa-field-input{resize:vertical;min-height:76px}
 /* ═══════════════════════════════════════════════════════════════════════
    end of -UI v27.21
    ═══════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════
+   -UI v27.23 (May 6) — MEDICAL RECORDS DRAWER scoped classes
+   ────────────────────────────────────────────────────────────────────────
+   Source: Figma 2652-3686 (4 use cases: UC1 Exception / UC2 In-Progress /
+   UC3 Completed / UC4 Open). Lives on the canonical .tid-mode surface
+   (440px width, sticky internal header, scroll-reset on open) and reuses
+   .tid-card / .tid-card-grid / .tid-cell for Patient Details. New .mrd-*
+   classes cover the MR-specific sections — HIPAA Verification Checkpoint,
+   Document Packet, Chain of Custody — that don't exist on other drawers.
+
+   Status chip variants reuse the global .gl-status-pill family:
+     · Exception   → error   (red    #fde8e8 / #f7c1c1 / #a32d2d)
+     · In Progress → info    (blue   #d8e7ff / #a3c7ff / #093881)
+     · Completed   → success (green  #eaf3de / #a8d5a2 / #3b6d11)
+     · Open        → warning (amber  #faeeda / #fac775 / #854f0b)
+
+   Figma typo notes carried into the build:
+     · "In-Porgress" in Figma → rendered as "In-Progress"
+     · "Deliver vis Portal" in Figma → rendered as "Deliver via Portal"
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Header secondary line — small status chip + ROI summary text inline */
+.drawer.tid-mode .mrd-secondary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.drawer.tid-mode .mrd-secondary-text {
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: #575a66;
+}
+
+/* HIPAA Verification — list of detail rows w/ 16px confirm icon */
+.drawer.tid-mode .mrd-hipaa-list {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 0;
+}
+.drawer.tid-mode .mrd-hipaa-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 0 11px 0;
+  border-bottom: 1px solid #dfe2ec;
+  margin-bottom: 11px;
+}
+.drawer.tid-mode .mrd-hipaa-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.drawer.tid-mode .mrd-hipaa-detail {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.drawer.tid-mode .mrd-hipaa-detail-lbl {
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.3;
+  color: #1c1a19;
+}
+.drawer.tid-mode .mrd-hipaa-detail-val {
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 1.3;
+  color: #575a66;
+}
+.drawer.tid-mode .mrd-confirm-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.drawer.tid-mode .mrd-confirm-icon.good {
+  background: #eaf3de;
+  border-color: #a8d5a2;
+}
+.drawer.tid-mode .mrd-confirm-icon.bad {
+  background: #fde8e8;
+  border-color: #f7c1c1;
+}
+.drawer.tid-mode .mrd-confirm-icon svg {
+  width: 12px;
+  height: 12px;
+  display: block;
+}
+
+/* Document Packet — bullet list inside the .tid-card */
+.drawer.tid-mode .mrd-packet-list {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+}
+.drawer.tid-mode .mrd-packet-item {
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 20px;
+  color: #1c1a19;
+}
+
+/* Chain of Custody — dated step rows */
+.drawer.tid-mode .mrd-trail-list {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  gap: 0;
+}
+.drawer.tid-mode .mrd-trail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 0 0 11px 0;
+  border-bottom: 1px solid #dfe2ec;
+  margin-bottom: 11px;
+}
+.drawer.tid-mode .mrd-trail-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.drawer.tid-mode .mrd-trail-date {
+  flex: 0 0 40px;
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+  color: #1c1a19;
+}
+.drawer.tid-mode .mrd-trail-step {
+  flex: 1 1 0;
+  min-width: 0;
+  font-family: 'Albert Sans', sans-serif;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 16px;
+  color: #575a66;
+}
+/* ═══════════════════════════════════════════════════════════════════════
+   end of -UI v27.23 (Medical Records)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════════════════════
+   -UI v27.23 (May 6) — QA KPI strip rebuild + spacing
+   ────────────────────────────────────────────────────────────────────────
+   Source: Figma kpi-/quality-assurance hero-1 (2512-48347) / hero-2
+   (2512-48391) / card-1 (2512-48368) / card-2 (2512-48375).
+
+   Why this scoped block exists: the canonical KPI alias at the top of the
+   stylesheet (`.gl-kpi-card, ..., .qa-kpi-card { border:none !important;
+   padding:16px !important; ... }`) was over-stomping the QA card variant,
+   killing the bordered chassis Figma calls for on cards 1 & 2 and tight-
+   padding off-spec. Trend colors (`.qa-kpi-trend.up/.dn/.fl`) collided
+   with the markup's `.is-up/.is-down/.is-flat` modifiers — the markup
+   convention wins, but the canonical's bare `.qa-kpi-trend{color:#575a66
+   !important}` was making every trend render grey regardless. Fixes
+   here restore both the per-Figma chassis and the sentiment-color
+   modifiers, scoped to `#page-qa` so only QA is affected.
+
+   Dave note (May 6): "Add 20px above and below kpi strip". The page gap
+   should already produce 20px between siblings; the explicit margin
+   below is belt-and-suspenders so the strip doesn't compress when
+   content above/below shifts.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Strip outer spacing — explicit 20px above/below per Dave's note.
+   `flex-shrink: 0` keeps the strip at its natural 164px height inside
+   the 100vh-bounded page (otherwise it can compress when the panels
+   below try to claim vertical room). */
+#page-qa > .qa-kpi-strip {
+  margin: 20px 0 !important;
+  flex-shrink: 0;
+}
+
+/* Hero card chassis — Figma 2512-48347 (hero-1) / 2512-48391 (hero-2).
+   No border, p-16, justify-between (anchors bar-breakdown to bottom). */
+#page-qa .qa-kpi-strip > .qa-kpi-hero {
+  border: 0 !important;
+  padding: 16px !important;
+  justify-content: space-between !important;
+  background: #ffffff !important;
+}
+
+/* Standard card chassis — Figma 2512-48368 (card-1) / 2512-48375 (card-2).
+   1px #e5e5e1 border, p-17, gap-16 (no justify-between — content stacks
+   from the top with the gap producing rhythm). The !important here wins
+   over the canonical `.qa-kpi-card{border:none !important; padding:16px
+   !important}` because the selector is more specific. */
+#page-qa .qa-kpi-strip > .qa-kpi-card {
+  border: 1px solid #e5e5e1 !important;
+  padding: 17px !important;
+  background: #ffffff !important;
+  gap: 16px !important;
+  justify-content: flex-start !important;
+}
+
+/* Trend sentiment color — markup uses `.is-up/.is-down/.is-flat`. The
+   canonical alias set `.qa-kpi-trend{color:#575a66 !important}` and
+   only patched `.up/.dn/.fl`, so without these scoped overrides every
+   QA trend rendered grey. */
+#page-qa .qa-kpi-strip .qa-kpi-trend.is-up   { color: #3b6d11 !important; }
+#page-qa .qa-kpi-strip .qa-kpi-trend.is-down { color: #a32d2d !important; }
+#page-qa .qa-kpi-strip .qa-kpi-trend.is-flat { color: #575a66 !important; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   end of -UI v27.23 (QA KPI strip)
+   ═══════════════════════════════════════════════════════════════════════ */
 </style>
 </head>
 <body>
@@ -11054,9 +11393,9 @@ textarea.aa-field-input{resize:vertical;min-height:76px}
         </span>
       </div>
       <div class="subnav">
-        <div class="subnav-item" id="snOrderIntake" onclick="showPage(&#39;scheduling&#39;);setTimeout(()=&gt;schedTab(&#39;orderintake&#39;),50)"><div class="subnav-dot"></div>Order Intake</div>
-        <div class="subnav-item" id="snAppointments" onclick="showPage(&#39;scheduling&#39;);setTimeout(()=&gt;schedTab(&#39;appointments&#39;),50)"><div class="subnav-dot"></div>Appointments</div>
-        <div class="subnav-item" id="snFollowup" onclick="showPage(&#39;scheduling&#39;);setTimeout(()=&gt;schedTab(&#39;followup&#39;),50)"><div class="subnav-dot"></div>Follow-up Queue</div>
+        <div class="subnav-item" id="snOrderIntake" onclick="showPage(&#39;scheduling&#39;,{subTab:&#39;orderintake&#39;})"><div class="subnav-dot"></div>Order Intake</div>
+        <div class="subnav-item" id="snAppointments" onclick="showPage(&#39;scheduling&#39;,{subTab:&#39;appointments&#39;})"><div class="subnav-dot"></div>Appointments</div>
+        <div class="subnav-item" id="snFollowup" onclick="showPage(&#39;scheduling&#39;,{subTab:&#39;followup&#39;})"><div class="subnav-dot"></div>Follow-up Queue</div>
       </div>
     </div>
 
@@ -15580,6 +15919,298 @@ textarea.aa-field-input{resize:vertical;min-height:76px}
       </div>
     </div>
 
+      <!-- ═══════════════════════════════════════════════════
+           v27.23 (May 6) — ADD GRACE AGENT page (was overlay/wizard).
+           ────────────────────────────────────────────────────
+           Reached via showPage('add-agent'). Sidebar nav-add and
+           topbar pill-add still call openAddAgentPanel() which
+           now resets state and routes through showPage. The X
+           close button is gone — page-level navigation supersedes
+           it. Header rebuilt to Figma 2632:90147; catalog cards
+           rebuilt to Figma 2632:89783. Wizard pane (.aa-panel-wizard)
+           and footer state container preserved unchanged so all
+           existing wizard step JS continues to work.
+      ═══════════════════════════════════════════════════ -->
+      <div class="page" id="page-add-agent">
+
+        <!-- Header — Figma 2632:90147 (Add Grace Agent — Header) -->
+        <div class="aap-hdr">
+          <div class="aap-hdr-text">
+            <div class="aap-hdr-title" id="aaPanelTitle">Add Grace Agent</div>
+            <div class="aap-hdr-sub" id="aaPanelSub">Select an agent to add to your practice</div>
+          </div>
+          <div class="aap-hdr-actions">
+            <div class="aap-hdr-save" id="aaHdrSave" onclick="aaSaveForLater()">Save for later</div>
+            <button type="button" class="aap-hdr-support" onclick="aaContactSupport()">
+              <span>Contact Support</span>
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M14.6667 11.5067V13.5067C14.6675 13.6924 14.6294 13.8762 14.5552 14.0466C14.4811 14.217 14.3725 14.37 14.236 14.4986C14.0995 14.6272 13.938 14.728 13.7615 14.7949C13.585 14.8617 13.397 14.8932 13.2089 14.8867C11.0667 14.6814 9.0067 13.9909 7.20001 12.8533C5.51918 11.8166 4.10076 10.3775 3.07974 8.67333C1.95974 6.84167 1.26937 4.74 1.06907 2.59333C1.05246 2.40667 1.08374 2.22 1.15903 2.04417C1.23433 1.86833 1.34216 1.70833 1.4757 1.57333C1.60924 1.43833 1.7659 1.33167 1.93755 1.25833C2.10921 1.185 2.29251 1.14667 2.47833 1.14667H4.47833C4.79926 1.1435 5.11142 1.25667 5.35514 1.46583C5.59886 1.675 5.75726 1.96583 5.79833 2.28333C5.86494 2.91833 5.99056 3.54417 6.17167 4.15333C6.24462 4.40167 6.26116 4.66667 6.21926 4.92583C6.17735 5.185 6.0786 5.42917 5.93167 5.64L5.20167 6.36C6.18667 7.95917 7.55167 9.32417 9.15084 10.3092L9.87084 9.57917C10.0817 9.43225 10.3258 9.3335 10.585 9.29159C10.8442 9.24968 11.1092 9.26622 11.3575 9.33917C11.9667 9.52028 12.5925 9.6459 13.2275 9.71251C13.5474 9.75406 13.8408 9.91359 14.0507 10.1605C14.2607 10.4074 14.3729 10.7233 14.3683 11.0467L14.6667 11.5067Z" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Catalog body (Step 0) — agent cards rebuilt to Figma 2632:89783 -->
+        <div class="aa-panel-body" id="aaPanelBody">
+
+          <div class="aa-step active" id="aa-step-0">
+            <div class="aa-catalog-grid">
+
+              <!-- Scheduling — Voice agent · Available -->
+              <div class="aa-cat-card available" data-agent="Scheduling">
+                <div class="aa-cat-header">
+                  <div class="aa-cat-titlestack">
+                    <div class="aa-cat-name">Scheduling</div>
+                    <div class="aa-cat-type">Voice agent</div>
+                  </div>
+                  <span class="aa-cat-status status-available">Available</span>
+                </div>
+                <div class="aa-cat-video" style="background:#d0e4f5" onclick="event.stopPropagation();openVideoPlayer(this)">
+                  <div class="aa-cat-video-bg"></div>
+                  <div class="aa-cat-video-label">Scheduling Agent Overview</div>
+                </div>
+                <div class="aa-cat-bottom">
+                  <div class="aa-cat-desc">Automates appointment booking, rescheduling, and cancellations via inbound calls. Integrates with your EHR scheduling system.</div>
+                  <div class="aa-cat-actions">
+                    <button class="aa-cat-btn aa-cat-btn-watch" onclick="event.stopPropagation();aaPlayDemoFromCard(this)">Watch Demo</button>
+                    <button class="aa-cat-btn aa-cat-btn-start" onclick="event.stopPropagation();aaSelectAgent(&#39;Scheduling&#39;,&#39;voice&#39;)">Start Setup</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Front Desk -->
+              <div class="aa-cat-card available" data-agent="Front Desk">
+                <div class="aa-cat-header">
+                  <div class="aa-cat-titlestack">
+                    <div class="aa-cat-name">Front Desk</div>
+                    <div class="aa-cat-type">Voice agent</div>
+                  </div>
+                  <span class="aa-cat-status status-available">Available</span>
+                </div>
+                <div class="aa-cat-video" style="background:#d0e4f5" onclick="event.stopPropagation();openVideoPlayer(this)">
+                  <div class="aa-cat-video-bg"></div>
+                  <div class="aa-cat-video-label">Front Desk Agent Overview</div>
+                </div>
+                <div class="aa-cat-bottom">
+                  <div class="aa-cat-desc">Handles call routing, basic intake, and patient triage. Fastest to deploy with minimal configuration required. Ideal starting point.</div>
+                  <div class="aa-cat-actions">
+                    <button class="aa-cat-btn aa-cat-btn-watch" onclick="event.stopPropagation();aaPlayDemoFromCard(this)">Watch Demo</button>
+                    <button class="aa-cat-btn aa-cat-btn-start" onclick="event.stopPropagation();aaSelectAgent(&#39;Front Desk&#39;,&#39;voice&#39;)">Start Setup</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Referrals -->
+              <div class="aa-cat-card available" data-agent="Referrals">
+                <div class="aa-cat-header">
+                  <div class="aa-cat-titlestack">
+                    <div class="aa-cat-name">Referrals</div>
+                    <div class="aa-cat-type">Voice + backend workflow</div>
+                  </div>
+                  <span class="aa-cat-status status-available">Available</span>
+                </div>
+                <div class="aa-cat-video" style="background:#d0e4f5" onclick="event.stopPropagation();openVideoPlayer(this)">
+                  <div class="aa-cat-video-bg"></div>
+                  <div class="aa-cat-video-label">Referrals Agent Overview</div>
+                </div>
+                <div class="aa-cat-bottom">
+                  <div class="aa-cat-desc">Manages referral intake, status tracking, and specialist coordination. Covers inbound calls and backend fax and portal workflows.</div>
+                  <div class="aa-cat-actions">
+                    <button class="aa-cat-btn aa-cat-btn-watch" onclick="event.stopPropagation();aaPlayDemoFromCard(this)">Watch Demo</button>
+                    <button class="aa-cat-btn aa-cat-btn-start" onclick="event.stopPropagation();aaSelectAgent(&#39;Referrals&#39;,&#39;hybrid&#39;)">Start Setup</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Billing -->
+              <div class="aa-cat-card available" data-agent="Billing">
+                <div class="aa-cat-header">
+                  <div class="aa-cat-titlestack">
+                    <div class="aa-cat-name">Billing</div>
+                    <div class="aa-cat-type">Backend workflow</div>
+                  </div>
+                  <span class="aa-cat-status status-available">Available</span>
+                </div>
+                <div class="aa-cat-video" style="background:#d0e4f5" onclick="event.stopPropagation();openVideoPlayer(this)">
+                  <div class="aa-cat-video-bg"></div>
+                  <div class="aa-cat-video-label">Billing Agent Overview</div>
+                </div>
+                <div class="aa-cat-bottom">
+                  <div class="aa-cat-desc">Automates billing workflows, claim status checks, and patient balance inquiries. Backend automation without live voice handling.</div>
+                  <div class="aa-cat-actions">
+                    <button class="aa-cat-btn aa-cat-btn-watch" onclick="event.stopPropagation();aaPlayDemoFromCard(this)">Watch Demo</button>
+                    <button class="aa-cat-btn aa-cat-btn-start" onclick="event.stopPropagation();aaSelectAgent(&#39;Billing&#39;,&#39;backend&#39;)">Start Setup</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quality Assurance -->
+              <div class="aa-cat-card available" data-agent="Quality Assurance">
+                <div class="aa-cat-header">
+                  <div class="aa-cat-titlestack">
+                    <div class="aa-cat-name">Quality Assurance</div>
+                    <div class="aa-cat-type">Backend workflow</div>
+                  </div>
+                  <span class="aa-cat-status status-available">Available</span>
+                </div>
+                <div class="aa-cat-video" style="background:#d0e4f5" onclick="event.stopPropagation();openVideoPlayer(this)">
+                  <div class="aa-cat-video-bg"></div>
+                  <div class="aa-cat-video-label">QA Agent Overview</div>
+                </div>
+                <div class="aa-cat-bottom">
+                  <div class="aa-cat-desc">Scores and analyzes call recordings against your QA criteria. Works standalone with manual uploads or integrates with live telephony.</div>
+                  <div class="aa-cat-actions">
+                    <button class="aa-cat-btn aa-cat-btn-watch" onclick="event.stopPropagation();aaPlayDemoFromCard(this)">Watch Demo</button>
+                    <button class="aa-cat-btn aa-cat-btn-start" onclick="event.stopPropagation();aaSelectAgent(&#39;Quality Assurance&#39;,&#39;backend&#39;)">Start Setup</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Revenue Cycle Mgmt — Early Access -->
+              <div class="aa-cat-card early" data-agent="RCM">
+                <div class="aa-cat-header">
+                  <div class="aa-cat-titlestack">
+                    <div class="aa-cat-name">Revenue Cycle Mgmt</div>
+                    <div class="aa-cat-type">Backend workflow</div>
+                  </div>
+                  <span class="aa-cat-status status-early">Early Access</span>
+                </div>
+                <div class="aa-cat-video" style="background:#d0e4f5" onclick="event.stopPropagation();openVideoPlayer(this)">
+                  <div class="aa-cat-video-bg"></div>
+                  <div class="aa-cat-video-label">RCM Agent Overview</div>
+                </div>
+                <div class="aa-cat-bottom">
+                  <div class="aa-cat-desc">End-to-end RCM automation covering denials, prior auth follow-up, and payment posting. Currently in controlled early access with select practices.</div>
+                  <select class="aa-early-select" id="early-access-select">
+                    <option value="">Select who to notify...</option>
+                    <option>Practice Administrator</option>
+                    <option>Operations Manager</option>
+                    <option>Billing Lead</option>
+                    <option>IT / Implementation Lead</option>
+                    <option>Executive Sponsor</option>
+                  </select>
+                  <div id="early-access-confirm" style="display:none;margin-top:10px">
+                    <div style="font-size:12px;color:#3b6d11;background:#eaf3de;border-radius:7px;padding:8px 12px;">Request sent. The VitalCX team will follow up within 2 business days.</div>
+                  </div>
+                  <div class="aa-cat-actions">
+                    <button class="aa-cat-btn aa-cat-btn-watch" onclick="event.stopPropagation();aaPlayDemoFromCard(this)">Watch Demo</button>
+                    <button class="aa-cat-btn aa-cat-btn-start" id="early-access-btn" onclick="event.stopPropagation();aaShowEarlyAccess()">Request Early Access</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Live Translation — Coming Soon -->
+              <div class="aa-cat-card coming" data-agent="Live Translation">
+                <div class="aa-cat-header">
+                  <div class="aa-cat-titlestack">
+                    <div class="aa-cat-name">Live Translation</div>
+                    <div class="aa-cat-type">Voice agent</div>
+                  </div>
+                  <span class="aa-cat-status status-coming">Coming Soon</span>
+                </div>
+                <div class="aa-cat-video" style="background:#d0e4f5" onclick="event.stopPropagation();openVideoPlayer(this)">
+                  <div class="aa-cat-video-bg"></div>
+                  <div class="aa-cat-video-label">Live Translation — Coming Soon</div>
+                </div>
+                <div class="aa-cat-bottom">
+                  <div class="aa-cat-desc">Real-time interpretation for patient calls in 40+ languages. Reduces escalations to bilingual live agents and extends reach to underserved patients.</div>
+                  <div id="notify-confirm" style="display:none;margin-top:10px">
+                    <div style="font-size:12px;color:#1a5fa8;background:#edf4fb;border-radius:7px;padding:8px 12px;">You are on the list. We will reach out as soon as Live Translation is available.</div>
+                  </div>
+                  <div class="aa-cat-actions">
+                    <button class="aa-cat-btn aa-cat-btn-watch" onclick="event.stopPropagation();aaPlayDemoFromCard(this)">Watch Demo</button>
+                    <button class="aa-cat-btn aa-cat-btn-start" id="notify-btn" onclick="event.stopPropagation();aaNotifyMe()">Notify Me When Ready</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Custom Agent -->
+              <div class="aa-cat-card custom" data-agent="Custom">
+                <div class="aa-cat-header">
+                  <div class="aa-cat-titlestack">
+                    <div class="aa-cat-name">Custom Agent</div>
+                    <div class="aa-cat-type">Tailored to your practice</div>
+                  </div>
+                  <span class="aa-cat-status status-custom">Custom</span>
+                </div>
+                <div class="aa-cat-video" style="background:#d0e4f5" onclick="event.stopPropagation();openVideoPlayer(this)">
+                  <div class="aa-cat-video-bg"></div>
+                  <div class="aa-cat-video-label">Custom Agent Overview</div>
+                </div>
+                <div class="aa-cat-bottom">
+                  <div class="aa-cat-desc">Have a workflow that does not fit a standard agent? We will build it. Tell us what your practice needs and we will scope and deploy a fully custom solution.</div>
+                  <div class="aa-cat-actions">
+                    <button class="aa-cat-btn aa-cat-btn-watch" onclick="event.stopPropagation();aaPlayDemoFromCard(this)">Watch Demo</button>
+                    <button class="aa-cat-btn aa-cat-btn-start" onclick="event.stopPropagation();aaSelectAgent(&#39;Custom&#39;,&#39;custom&#39;)">Tell us what you need</button>
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /aa-catalog-grid -->
+
+            <!-- Grace demo chat section (preserved unchanged) -->
+            <div class="aa-demo-section" style="margin-top:12px">
+              <div style="background:#edf4fb;border-radius:16px;padding:32px 36px;border:1px solid #e0e6f0">
+                <div style="text-align:center;margin-bottom:16px">
+                  <div style="font-size:10px;font-weight:600;color:#8899b0;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px">Not sure what to ask? Try these!</div>
+                  <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:12px">
+                    <div style="background:#f59e0b;color:#fff;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity .15s" onmouseover="this.style.opacity=&#39;.85&#39;" onmouseout="this.style.opacity=&#39;1&#39;">
+                      <span>⚡</span> Start Here
+                    </div>
+                    <div style="background:#fff;color:#444;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #dde5f0;display:flex;align-items:center;gap:6px;transition:background .12s" onmouseover="this.style.background=&#39;#f5f7fb&#39;" onmouseout="this.style.background=&#39;#fff&#39;">
+                      📅 Appointments
+                    </div>
+                    <div style="background:#fff;color:#444;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #dde5f0;display:flex;align-items:center;gap:6px;transition:background .12s" onmouseover="this.style.background=&#39;#f5f7fb&#39;" onmouseout="this.style.background=&#39;#fff&#39;">
+                      ✦ Features
+                    </div>
+                    <div style="background:#fff;color:#444;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #dde5f0;display:flex;align-items:center;gap:6px;transition:background .12s" onmouseover="this.style.background=&#39;#f5f7fb&#39;" onmouseout="this.style.background=&#39;#fff&#39;">
+                      📑 Examples
+                    </div>
+                  </div>
+                  <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+                    <div style="background:#fff;color:#444;padding:9px 20px;border-radius:99px;font-size:13px;cursor:pointer;border:1px solid #dde5f0;display:flex;align-items:center;gap:7px;transition:background .12s" onmouseover="this.style.background=&#39;#f5f7fb&#39;" onmouseout="this.style.background=&#39;#fff&#39;">
+                      <span style="color:#aaa">?</span> What can you do? <span style="color:#bbb;font-size:11px">›</span>
+                    </div>
+                    <div style="background:#fff;color:#444;padding:9px 20px;border-radius:99px;font-size:13px;cursor:pointer;border:1px solid #dde5f0;display:flex;align-items:center;gap:7px;transition:background .12s" onmouseover="this.style.background=&#39;#f5f7fb&#39;" onmouseout="this.style.background=&#39;#fff&#39;">
+                      📅 Book a demo <span style="color:#bbb;font-size:11px">›</span>
+                    </div>
+                    <div style="background:#fff;color:#444;padding:9px 20px;border-radius:99px;font-size:13px;cursor:pointer;border:1px solid #dde5f0;display:flex;align-items:center;gap:7px;transition:background .12s" onmouseover="this.style.background=&#39;#f5f7fb&#39;" onmouseout="this.style.background=&#39;#fff&#39;">
+                      📈 How much? <span style="color:#bbb;font-size:11px">›</span>
+                    </div>
+                  </div>
+                  <div style="font-size:12px;color:#99a8bc">Or just ask whatever you want — Grace loves questions!</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interest confirmation -->
+            <div class="aa-confirm-state" id="aa-interest-confirm">
+              <div style="width:56px;height:56px;border-radius:50%;background:#faeeda;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px">🕒</div>
+              <div style="font-size:17px;font-weight:500;color:#1a1a1a;margin-bottom:8px">Request received</div>
+              <div style="font-size:13px;color:#666;line-height:1.6;margin-bottom:24px">The VitalCX team has been notified of your interest in <strong id="interest-agent-name">this agent</strong>. They will follow up within 2 business days.</div>
+              <button class="aa-btn-ghost" onclick="aaResetToGrid()">Back to agents</button>
+            </div>
+          </div><!-- /aa-step-0 -->
+
+        </div><!-- /aa-panel-body -->
+
+        <!-- Wizard pane (Steps 1-6) -->
+        <div class="aa-panel-wizard" id="aaPanelWizard" style="display:none"></div>
+
+        <!-- Footer (legacy state container; hidden globally via #aaFooter rule) -->
+        <div class="aa-footer" id="aaFooter">
+          <div class="aa-footer-left">
+            <button class="aa-btn-ghost" id="aaCancelBtn" onclick="closeAddAgentPanel()">Cancel</button>
+            <button class="aa-btn-save" id="aaSaveBtn" onclick="aaSaveForLater()" style="display:none">Save for later</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <button class="aa-btn-back" id="aaBackBtn" onclick="aaPrevStep()" style="display:none">← Back</button>
+            <button class="aa-btn-next" id="aaNextBtn" onclick="aaNextStep()" style="display:none">Continue →</button>
+            <button class="aa-btn-submit" id="aaSubmitBtn" onclick="aaSubmit()" style="display:none">Submit request</button>
+          </div>
+        </div>
+      </div><!-- /page-add-agent -->
+
   </div><!-- /main -->
 </div><!-- /shell -->
 
@@ -16443,10 +17074,23 @@ function showPage(page) {
     if (typeof usageInit === 'function') usageInit();
     // v26e — usage Grace Insight prompt now lives in graceBarContextByPage['usage']
     // (applied via applyGraceBarContext below).
+  } else if (page === 'add-agent') {
+    // v27.23 — Add Grace Agent moved from overlay/wizard to a routable page.
+    // No sidebar nav-item lights up (the trigger is .nav-add, not .nav-item).
+    document.getElementById('page-add-agent').classList.add('active');
+    document.getElementById('topbarTitle').textContent = 'Add Grace Agent';
+    wrap.classList.remove('subnav-open');
   }
 
   // v26e — apply page-specific Grace Insight context (or fall through to default)
   if (typeof applyGraceBarContext === 'function') applyGraceBarContext(page);
+
+  // v27.23 — reset scroll on every navigation so revisiting a previously-
+  // scrolled section starts at the top (Dave global note, May 6). The
+  // .page itself is the scroll container (overflow-y:auto + height:
+  // calc(100vh - 61px)), so resetting its scrollTop is enough.
+  var activePage = document.querySelector('.page.active');
+  if (activePage) activePage.scrollTop = 0;
 }
 
 /* ── Documents — category filter + search ───────────────────── */
@@ -16495,6 +17139,10 @@ function showSubPage(sub) {
   const bc1sep=document.getElementById('bc1sep'), bc2sep=document.getElementById('bc2sep');
   if(bc1){bc1.style.display='inline';bc1sep.style.display='inline';bc2.style.display='inline';bc2sep.style.display='inline';}
   document.getElementById('topbarTitle').textContent = labelMap[sub] || sub;
+  // v27.23 — match showPage scroll-reset behavior so sub-tab nav also
+  // starts at the top of the new section.
+  var activePage = document.querySelector('.page.active');
+  if (activePage) activePage.scrollTop = 0;
   }
 
 // ═══════════════════════════════════
@@ -17412,12 +18060,18 @@ function loadApptsTab(tab) {
   target.innerHTML = clone.innerHTML;
 }
 
-// On scheduling page show, always default to Overview tab
+// On scheduling page show, default to Overview tab — UNLESS the caller
+// passed a target subTab (sidebar subnav uses {subTab:'orderintake'} etc.).
+// v27.23 — previously this always forced 'overview', which raced with the
+// subnav's setTimeout(schedTab) and produced a visible Overview→target
+// flash on every subnav click. Accepting an opts arg + dropping the
+// setTimeout in the markup eliminates the flash.
 const _schedOrig = showPage;
-showPage = function(page) {
+showPage = function(page, opts) {
   _schedOrig(page);
   if (page === 'scheduling') {
-    schedTab('overview');
+    var tab = (opts && opts.subTab) ? opts.subTab : 'overview';
+    schedTab(tab);
   }
 };
 
@@ -19186,6 +19840,61 @@ function qaCloseCategoryHelp() {
   if (overlay) overlay.classList.remove('open');
 }
 
+/* ── QA Agent Performance — handler filter, group-by, row click ──────
+   v27.23 (May 6): these three functions were referenced from the AP
+   markup (`qaApSetHandler` on each chip, `qaApSetGrouping` on the
+   "Group by" select, `qaApOpenAgent` on each row click) but never
+   defined — every interaction was a silent no-op. Wiring them now.
+   Filter logic: each row carries `data-handler="grace"|"fd"|"live"`
+   and each section header carries `data-group=` matching the same
+   set; selecting "All" shows everything, picking a specific handler
+   collapses to just that handler's section. The Group by select and
+   the row click are stub hooks for now (Phase 1 logs only) —
+   replacing with full grouping + agent-detail drawer in a follow-up
+   once the agent-detail Figma lands. */
+function qaApSetHandler(btn, type) {
+  // Toggle .active on the segmented control
+  var seg = (btn && btn.closest) ? btn.closest('.qa-ap-seg') : null;
+  if (seg) {
+    seg.querySelectorAll('.qa-ap-seg-btn').forEach(function(b){ b.classList.remove('active'); });
+  }
+  if (btn && btn.classList) btn.classList.add('active');
+
+  var ap = document.getElementById('qa-agent-perf');
+  if (!ap) return;
+  // Filter agent rows by data-handler
+  ap.querySelectorAll('.qa-ap-row').forEach(function(row){
+    var match = (type === 'all') || (row.getAttribute('data-handler') === type);
+    row.style.display = match ? '' : 'none';
+  });
+  // Hide section headers whose data-group doesn't match — keeps the
+  // table from showing dangling group rows for filtered-out sections.
+  ap.querySelectorAll('.qa-ap-group-row[data-group]').forEach(function(g){
+    var match = (type === 'all') || (g.getAttribute('data-group') === type);
+    g.style.display = match ? '' : 'none';
+  });
+  if (typeof graceRecordAction === 'function') {
+    graceRecordAction('qa.agent-perf.filter', { handler: type });
+  }
+}
+
+function qaApSetGrouping(value) {
+  // Phase 1 stub. The current markup is hard-coded by handler grouping
+  // (the default "Handler type" choice). Team / Flat orderings will
+  // rebuild qaApBody from a data source in the next pass.
+  if (typeof graceRecordAction === 'function') {
+    graceRecordAction('qa.agent-perf.group-by', { value: value });
+  }
+}
+
+function qaApOpenAgent(id) {
+  // Phase 1 stub — agent-detail drawer slated for follow-up rebuild
+  // once the agent-detail Figma lands. For now, log only.
+  if (typeof graceRecordAction === 'function') {
+    graceRecordAction('qa.agent-perf.open', { agent: id });
+  }
+}
+
 /* ── QA Flagged-list date range toggle (Apr 22 v2) ──
    Lightweight cycle through four presets. Full-picker scaffold lands with
    Phase 2 analytics drill-down. Filters the visible rows via data-sla /
@@ -19879,250 +20588,8 @@ document.addEventListener('DOMContentLoaded', function() {
 })();
 </script>
 
-<!-- ═══════════════════════════════════════════════════
-     ADD GRACE AGENT — FULL PANEL
-═══════════════════════════════════════════════════ -->
-<div class="aa-overlay" id="aaOverlay">
-  <div class="aa-backdrop" onclick="closeAddAgentPanel()"></div>
-  <div class="aa-panel" id="aaPanel">
-
-    <!-- Header -->
-    <div class="aa-panel-hdr" style="position:relative">
-      <div>
-        <div class="aa-panel-title" id="aaPanelTitle">Add Grace Agent</div>
-        <div class="aa-panel-sub" id="aaPanelSub">Select an agent to add to your practice</div>
-      </div>
-      <div class="aa-hdr-actions">
-        <div class="aa-hdr-save" id="aaHdrSave" onclick="aaSaveForLater()">Save for later</div>
-        <div class="aa-hdr-cancel-x" id="aaHdrCancel" onclick="aaConfirmCancel()" aria-label="Close"><svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg></div>
-      </div>
-      <!-- Cancel confirmation dialog -->
-      <div class="aa-cancel-dialog" id="aaCancelDialog">
-        <div class="aa-cancel-dialog-title">Cancel setup?</div>
-        <div class="aa-cancel-dialog-sub">Your progress will be lost unless you save for later.</div>
-        <div class="aa-cancel-dialog-btns">
-          <div class="aa-cancel-continue" onclick="aaCloseCancelDialog()">Keep going</div>
-          <div class="aa-cancel-exit" onclick="aaExitToGrid()">Exit setup</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Body (scrollable) -->
-    <div class="aa-panel-body" id="aaPanelBody">
-
-            <!-- ── STEP 0: CATALOG ── -->
-      <div class="aa-step active" id="aa-step-0">
-        <div class="aa-catalog-grid">
-
-          <div class="aa-cat-card available">
-            <div class="aa-cat-body">
-              <div class="aa-cat-badge badge-available">Available</div>
-              <div class="aa-cat-name">Scheduling</div>
-              <div class="aa-cat-type">Voice agent</div>
-              <div class="aa-cat-video" style="background:#d0e4f5" onclick="openVideoPlayer(this)">
-                <div class="aa-cat-video-bg"><div class="aa-cat-play"><svg width="12" height="14" viewBox="0 0 14 16" fill="none"><polygon points="2,1 13,8 2,15" fill="rgba(0,0,0,0.55)"></polygon></svg></div></div>
-                <div class="aa-cat-video-label">Scheduling Agent Overview</div>
-              </div>
-              <div class="aa-cat-desc">Automates appointment booking, rescheduling, and cancellations via inbound calls. Integrates with your EHR scheduling system.</div>
-              
-              <button class="aa-cat-cta cta-add" onclick="event.stopPropagation();aaSelectAgent(&#39;Scheduling&#39;,&#39;voice&#39;)">Start Setup</button>
-            </div>
-          </div>
-
-          <div class="aa-cat-card available">
-            <div class="aa-cat-body">
-              <div class="aa-cat-badge badge-available">Available</div>
-              <div class="aa-cat-name">Front Desk</div>
-              <div class="aa-cat-type">Voice agent</div>
-              <div class="aa-cat-video" style="background:#d0e4f5" onclick="openVideoPlayer(this)">
-                <div class="aa-cat-video-bg"><div class="aa-cat-play"><svg width="12" height="14" viewBox="0 0 14 16" fill="none"><polygon points="2,1 13,8 2,15" fill="rgba(0,0,0,0.55)"></polygon></svg></div></div>
-                <div class="aa-cat-video-label">Front Desk Agent Overview</div>
-              </div>
-              <div class="aa-cat-desc">Handles call routing, basic intake, and patient triage. Fastest to deploy with minimal configuration required. Ideal starting point.</div>
-              
-              <button class="aa-cat-cta cta-add" onclick="event.stopPropagation();aaSelectAgent(&#39;Front Desk&#39;,&#39;voice&#39;)">Start Setup</button>
-            </div>
-          </div>
-
-          <div class="aa-cat-card available">
-            <div class="aa-cat-body">
-              <div class="aa-cat-badge badge-available">Available</div>
-              <div class="aa-cat-name">Referrals</div>
-              <div class="aa-cat-type">Voice + backend workflow</div>
-              <div class="aa-cat-video" style="background:#d0e4f5" onclick="openVideoPlayer(this)">
-                <div class="aa-cat-video-bg"><div class="aa-cat-play"><svg width="12" height="14" viewBox="0 0 14 16" fill="none"><polygon points="2,1 13,8 2,15" fill="rgba(0,0,0,0.55)"></polygon></svg></div></div>
-                <div class="aa-cat-video-label">Referrals Agent Overview</div>
-              </div>
-              <div class="aa-cat-desc">Manages referral intake, status tracking, and specialist coordination. Covers inbound calls and backend fax and portal workflows.</div>
-              
-              <button class="aa-cat-cta cta-add" onclick="event.stopPropagation();aaSelectAgent(&#39;Referrals&#39;,&#39;hybrid&#39;)">Start Setup</button>
-            </div>
-          </div>
-
-          <div class="aa-cat-card available">
-            <div class="aa-cat-body">
-              <div class="aa-cat-badge badge-available">Available</div>
-              <div class="aa-cat-name">Billing</div>
-              <div class="aa-cat-type">Backend workflow</div>
-              <div class="aa-cat-video" style="background:#d0e4f5" onclick="openVideoPlayer(this)">
-                <div class="aa-cat-video-bg"><div class="aa-cat-play"><svg width="12" height="14" viewBox="0 0 14 16" fill="none"><polygon points="2,1 13,8 2,15" fill="rgba(0,0,0,0.55)"></polygon></svg></div></div>
-                <div class="aa-cat-video-label">Billing Agent Overview</div>
-              </div>
-              <div class="aa-cat-desc">Automates billing workflows, claim status checks, and patient balance inquiries. Backend automation without live voice handling.</div>
-              
-              <button class="aa-cat-cta cta-add" onclick="event.stopPropagation();aaSelectAgent(&#39;Billing&#39;,&#39;backend&#39;)">Start Setup</button>
-            </div>
-          </div>
-
-          <div class="aa-cat-card available">
-            <div class="aa-cat-body">
-              <div class="aa-cat-badge badge-available">Available</div>
-              <div class="aa-cat-name">Quality Assurance</div>
-              <div class="aa-cat-type">Backend workflow</div>
-              <div class="aa-cat-video" style="background:#d0e4f5" onclick="openVideoPlayer(this)">
-                <div class="aa-cat-video-bg"><div class="aa-cat-play"><svg width="12" height="14" viewBox="0 0 14 16" fill="none"><polygon points="2,1 13,8 2,15" fill="rgba(0,0,0,0.55)"></polygon></svg></div></div>
-                <div class="aa-cat-video-label">QA Agent Overview</div>
-              </div>
-              <div class="aa-cat-desc">Scores and analyzes call recordings against your QA criteria. Works standalone with manual uploads or integrates with live telephony.</div>
-              
-              <button class="aa-cat-cta cta-add" onclick="event.stopPropagation();aaSelectAgent(&#39;Quality Assurance&#39;,&#39;backend&#39;)">Start Setup</button>
-            </div>
-          </div>
-
-          <div class="aa-cat-card early">
-            <div class="aa-cat-body">
-              <div class="aa-cat-badge badge-early">Early Access</div>
-              <div class="aa-cat-name">Revenue Cycle Mgmt</div>
-              <div class="aa-cat-type">Backend workflow</div>
-              <div class="aa-cat-video" style="background:#d0e4f5" onclick="openVideoPlayer(this)">
-                <div class="aa-cat-video-bg"><div class="aa-cat-play"><svg width="12" height="14" viewBox="0 0 14 16" fill="none"><polygon points="2,1 13,8 2,15" fill="rgba(0,0,0,0.55)"></polygon></svg></div></div>
-                <div class="aa-cat-video-label">RCM Agent Overview</div>
-              </div>
-              <div class="aa-cat-desc">End-to-end RCM automation covering denials, prior auth follow-up, and payment posting. Currently in controlled early access with select practices.</div>
-                            <select class="aa-early-select" id="early-access-select">
-                <option value="">Select who to notify...</option>
-                <option>Practice Administrator</option>
-                <option>Operations Manager</option>
-                <option>Billing Lead</option>
-                <option>IT / Implementation Lead</option>
-                <option>Executive Sponsor</option>
-              </select>
-              <div id="early-access-confirm" style="display:none;margin-top:10px">
-                <div style="font-size:12px;color:#3b6d11;background:#eaf3de;border-radius:7px;padding:8px 12px;">Request sent. The VitalCX team will follow up within 2 business days.</div>
-              </div>
-              <button class="aa-cat-cta cta-interest" id="early-access-btn" onclick="aaShowEarlyAccess()">Request Early Access</button>
-            </div>
-          </div>
-
-          <div class="aa-cat-card coming">
-            <div class="aa-cat-body">
-              <div class="aa-cat-badge badge-coming">Coming Soon</div>
-              <div class="aa-cat-name">Live Translation</div>
-              <div class="aa-cat-type">Voice agent</div>
-              <div class="aa-cat-video" style="background:#d0e4f5" onclick="openVideoPlayer(this)">
-                <div class="aa-cat-video-bg"><div class="aa-cat-play"><svg width="12" height="14" viewBox="0 0 14 16" fill="none"><polygon points="2,1 13,8 2,15" fill="rgba(0,0,0,0.55)"></polygon></svg></div></div>
-                <div class="aa-cat-video-label">Live Translation — Coming Soon</div>
-              </div>
-              <div class="aa-cat-desc">Real-time interpretation for patient calls in 40+ languages. Reduces escalations to bilingual live agents and extends reach to underserved patients.</div>
-              <div id="notify-confirm" style="display:none;margin-top:10px">
-                <div style="font-size:12px;color:#1a5fa8;background:#edf4fb;border-radius:7px;padding:8px 12px;">You are on the list. We will reach out as soon as Live Translation is available.</div>
-              </div>
-              <button class="aa-cat-cta cta-notify" id="notify-btn" onclick="aaNotifyMe()">Notify Me When Ready</button>
-            </div>
-          </div>
-          <!-- Custom — Assisted -->
-          <div class="aa-cat-card early">
-            <div class="aa-cat-body">
-              <div class="aa-cat-badge badge-early">Custom</div>
-              <div class="aa-cat-name">Custom Agent</div>
-              <div class="aa-cat-type">Tailored to your practice</div>
-              <div class="aa-cat-video" style="background:#d0e4f5" onclick="openVideoPlayer(this)">
-                <div class="aa-cat-video-bg"><div class="aa-cat-play"><svg width="12" height="14" viewBox="0 0 14 16" fill="none"><polygon points="2,1 13,8 2,15" fill="rgba(0,0,0,0.55)"></polygon></svg></div></div>
-                <div class="aa-cat-video-label">Custom Agent Overview</div>
-              </div>
-              <div class="aa-cat-desc">Have a workflow that does not fit a standard agent? We will build it. Tell us what your practice needs and we will scope and deploy a fully custom solution.</div>
-              <button class="aa-cat-cta cta-interest" onclick="aaSelectAgent(&#39;Custom&#39;,&#39;custom&#39;)">Tell us what you need</button>
-            </div>
-          </div>
-
-        </div><!-- /aa-catalog-grid -->
-
-        <!-- Grace demo chat section -->
-        <div class="aa-demo-section" style="margin-top:12px">
-          <div style="background:#edf4fb;border-radius:16px;padding:32px 36px;border:1px solid #e0e6f0">
-
-            <!-- Prompt chips section -->
-            <div style="text-align:center;margin-bottom:16px">
-              <div style="font-size:10px;font-weight:600;color:#8899b0;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px">Not sure what to ask? Try these!</div>
-              <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:12px">
-                <div style="background:#f59e0b;color:#fff;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:6px;transition:opacity .15s" onmouseover="this.style.opacity=&#39;.85&#39;" onmouseout="this.style.opacity=&#39;1&#39;">
-                  <span>⚡</span> Start Here
-                </div>
-                <div style="background:#fff;color:#444;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #dde5f0;display:flex;align-items:center;gap:6px;transition:background .12s" onmouseover="this.style.background=&#39;#f5f7fb&#39;" onmouseout="this.style.background=&#39;#fff&#39;">
-                  📅 Appointments
-                </div>
-                <div style="background:#fff;color:#444;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #dde5f0;display:flex;align-items:center;gap:6px;transition:background .12s" onmouseover="this.style.background=&#39;#f5f7fb&#39;" onmouseout="this.style.background=&#39;#fff&#39;">
-                  ✦ Features
-                </div>
-                <div style="background:#fff;color:#444;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #dde5f0;display:flex;align-items:center;gap:6px;transition:background .12s" onmouseover="this.style.background=&#39;#f5f7fb&#39;" onmouseout="this.style.background=&#39;#fff&#39;">
-                  📑 Examples
-                </div>
-              </div>
-              <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:16px">
-                <div style="background:#fff;color:#444;padding:9px 20px;border-radius:99px;font-size:13px;cursor:pointer;border:1px solid #dde5f0;display:flex;align-items:center;gap:7px;transition:background .12s" onmouseover="this.style.background=&#39;#f5f7fb&#39;" onmouseout="this.style.background=&#39;#fff&#39;">
-                  <span style="color:#aaa">?</span> What can you do? <span style="color:#bbb;font-size:11px">›</span>
-                </div>
-                <div style="background:#fff;color:#444;padding:9px 20px;border-radius:99px;font-size:13px;cursor:pointer;border:1px solid #dde5f0;display:flex;align-items:center;gap:7px;transition:background .12s" onmouseover="this.style.background=&#39;#f5f7fb&#39;" onmouseout="this.style.background=&#39;#fff&#39;">
-                  📅 Book a demo <span style="color:#bbb;font-size:11px">›</span>
-                </div>
-                <div style="background:#fff;color:#444;padding:9px 20px;border-radius:99px;font-size:13px;cursor:pointer;border:1px solid #dde5f0;display:flex;align-items:center;gap:7px;transition:background .12s" onmouseover="this.style.background=&#39;#f5f7fb&#39;" onmouseout="this.style.background=&#39;#fff&#39;">
-                  📈 How much? <span style="color:#bbb;font-size:11px">›</span>
-                </div>
-              </div>
-              <div style="font-size:12px;color:#99a8bc">Or just ask whatever you want — Grace loves questions!</div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- re-open catalog grid for interest confirm        <!-- re-open catalog grid for interest confirm (already closed above) -->
-
-        </div>
-
-        <!-- Interest confirmation -->
-        <div class="aa-confirm-state" id="aa-interest-confirm">
-          <div style="width:56px;height:56px;border-radius:50%;background:#faeeda;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px">🕒</div>
-          <div style="font-size:17px;font-weight:500;color:#1a1a1a;margin-bottom:8px">Request received</div>
-          <div style="font-size:13px;color:#666;line-height:1.6;margin-bottom:24px">The VitalCX team has been notified of your interest in <strong id="interest-agent-name">this agent</strong>. They will follow up within 2 business days.</div>
-          <button class="aa-btn-ghost" onclick="aaResetToGrid()">Back to agents</button>
-        </div>
-      </div>
-
-      <!-- ── STEP 1      <!-- ── STEP 1: Operational Context ── -->
-      
-      
-
-    </div><!-- /aa-panel-body -->
-
-    <!-- Wizard container: separate from catalog, own scroll context -->
-    <div class="aa-panel-wizard" id="aaPanelWizard" style="display:none"></div>
-
-
-    <!-- Footer -->
-    <div class="aa-footer" id="aaFooter">
-      <div class="aa-footer-left">
-        <button class="aa-btn-ghost" id="aaCancelBtn" onclick="closeAddAgentPanel()">Cancel</button>
-        <button class="aa-btn-save" id="aaSaveBtn" onclick="aaSaveForLater()" style="display:none">Save for later</button>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px">
-        <button class="aa-btn-back" id="aaBackBtn" onclick="aaPrevStep()" style="display:none">← Back</button>
-        <button class="aa-btn-next" id="aaNextBtn" onclick="aaNextStep()" style="display:none">Continue →</button>
-        <button class="aa-btn-submit" id="aaSubmitBtn" onclick="aaSubmit()" style="display:none">Submit request</button>
-      </div>
-    </div>
-
-  </div><!-- /aa-panel -->
-<!-- /aa-overlay -->
+<!-- v27.23 — Add Grace Agent overlay/panel removed; now lives as
+     #page-add-agent inside .main, reached via showPage('add-agent'). -->
 
 
 <!-- Grace FAB -->
@@ -20553,6 +21020,10 @@ function renderSingletonAgentCard(agentName) {
   if (zero) zero.style.display = 'none';
 }
 
+// v27.23 — openAddAgentPanel resets wizard state and routes to the new
+// #page-add-agent page via showPage. Sidebar nav-add and topbar pill-add
+// still call this entry point. The X close button is gone (page-level
+// navigation supersedes it), so aaHdrCancel manipulation is dropped.
 function openAddAgentPanel() {
   aaCurrentStep = 0;
   aaSelectedAgent = '';
@@ -20562,20 +21033,21 @@ function openAddAgentPanel() {
   if (sub)   sub.textContent   = 'Select an agent to add to your practice';
   var hdrSave = document.getElementById('aaHdrSave');
   if (hdrSave) hdrSave.style.display = 'none';
-  var hdrCancel = document.getElementById('aaHdrCancel');
-  if (hdrCancel) { hdrCancel.style.display=''; hdrCancel.innerHTML=AA_X_SVG; hdrCancel.classList.remove('text-cancel'); }
   var panelBody  = document.getElementById('aaPanelBody');
   var wizardPane = document.getElementById('aaPanelWizard');
   if (panelBody)  { panelBody.style.display = '';   panelBody.scrollTop = 0; }
   if (wizardPane) { wizardPane.style.display = 'none'; wizardPane.innerHTML = ''; }
-  document.getElementById('aaOverlay').classList.add('open');
-  // Scope the Grace FAB to the Add Agent overlay only — otherwise it overlaps
+  // Route through the page system so the topbar / nav state stays in sync.
+  showPage('add-agent');
+  // Scope the Grace FAB to the Add Agent page only — otherwise it overlaps
   // the pinned Grace Insight bar on every page.
   document.body.classList.add('grace-fab-scope');
 }
 
+// v27.23 — closeAddAgentPanel returns to Overview and clears wizard state.
+// Kept as a named entry so existing callers (Cancel button, completeDeploy,
+// demoReset) continue to work unchanged.
 function closeAddAgentPanel() {
-  document.getElementById('aaOverlay').classList.remove('open');
   var wizardPane = document.getElementById('aaPanelWizard');
   if (wizardPane) { wizardPane.style.display = 'none'; wizardPane.innerHTML = ''; }
   var panelBody = document.getElementById('aaPanelBody');
@@ -20584,6 +21056,30 @@ function closeAddAgentPanel() {
   // Also hide the FAB mini popup if it was open.
   var gfp = document.getElementById('graceFabPopup');
   if (gfp) gfp.style.display = 'none';
+  // Only navigate away if we're actually on the Add Agent page; this keeps
+  // demoReset() (called from any page) from blowing the user back to Overview.
+  var page = document.getElementById('page-add-agent');
+  if (page && page.classList.contains('active')) showPage('overview');
+}
+
+// v27.23 — Watch Demo button on the agent card. Finds the .aa-cat-video
+// inside the same card and triggers the existing video-player overlay.
+function aaPlayDemoFromCard(btn) {
+  var card = btn && btn.closest ? btn.closest('.aa-cat-card') : null;
+  if (!card) return;
+  var v = card.querySelector('.aa-cat-video');
+  if (v && typeof openVideoPlayer === 'function') openVideoPlayer(v);
+}
+
+// v27.23 — Contact Support button in the new page header. Phase 1 stub:
+// surfaces the existing Grace FAB as the support entry. Replace with the
+// real support flow when wired in Phase 2.
+function aaContactSupport() {
+  if (typeof openGraceFab === 'function') {
+    openGraceFab();
+  } else {
+    alert('Contact Support — Phase 2 stub.');
+  }
 }
 
 function aaSelectAgent(name, type) {
@@ -20682,8 +21178,9 @@ function aaResetToGrid() {
 }
 
 // Issue branch
+// v27.23 — overlay container removed; navigate via the page system instead.
 function openIssuePanel() {
-  document.getElementById('aaOverlay').classList.add('open');
+  showPage('add-agent');
   aaShowStep('issue');
 }
 
@@ -22406,50 +22903,178 @@ const medRecordsActions = {
 };
 
 function openMedRecordsDrawer(id){
+  /* v27.23 — Medical Records drawer rebuilt against Figma 2652-3686
+     (4 use cases: UC1 Exception / UC2 In-Progress / UC3 Completed /
+     UC4 Open). Migrated off the legacy row-drawer chassis onto the
+     canonical .tid-mode surface (440px width, sticky internal header,
+     scroll-reset on every open). Reuses .tid-card / .tid-card-grid for
+     Patient Details so the cell density / typography matches every
+     other tid-mode drawer in the fleet (TI / Appointments / Order
+     Intake / Callback / Follow-up Queue / Referrals). New .mrd-*
+     scoped classes cover MR-specific sections (HIPAA Verification,
+     Document Packet, Chain of Custody). Grace Analysis stays body-only
+     per v27.11 unification. Action stack uses buildActionArea + the
+     v27.21 confirm-decision rebuild. */
   const d = medRecordsRowData[id]; if(!d) return;
   const act = medRecordsActions[id] || {primary:{label:'Deliver via Portal', outcome:'Packet released.'}, alts:[{label:'Deliver via Fax', outcome:'Packet faxed.'}]};
-  /* v26j round 4 — statusMap maps to canonical .gl-status-pill variants */
-  const statusMap = {
-    'Exception':{c:'#a32d2d',bg:'#fde8e8',cls:'error'},
-    'In Progress':{c:'#0c447c',bg:'#edf4fb',cls:'info'},
-    'Completed':{c:'#3b6d11',bg:'#eaf3de',cls:'success'},
-    'Open':{c:'#854f0b',bg:'#faeeda',cls:'warning'}
+
+  /* Status chip variant + display label per Figma. Note: Figma's chip text
+     "In-Porgress" is a typo — we render "In-Progress". */
+  const statusVariant = {
+    'Exception':   {cls:'error',   lbl:'Exception'},
+    'In Progress': {cls:'info',    lbl:'In-Progress'},
+    'Completed':   {cls:'success', lbl:'Completed'},
+    'Open':        {cls:'warning', lbl:'Open'}
   };
-  const s = statusMap[d.status] || statusMap['Open'];
-  document.getElementById('drawerTitle').textContent = d.patient;
-  document.getElementById('drawerSub').textContent = d.requestType + ' · ' + d.requester;
-  document.getElementById('drawerBody').innerHTML = `
-    <div class="drawer-body-title">${d.patient} <span class="gl-status-pill ${s.cls}" style="margin-left:8px">${d.status}</span></div>
-    <div class="drawer-body-sub">${d.requestType} · ${d.requester}</div>
-    <div style="background:#F8F8FB;padding:12px;border-radius:8px;margin:12px 0;display:grid;grid-template-columns:1fr 1fr;gap:10px 18px">
-      <div><div class="adf-lbl">Patient</div><div class="adf-val">${d.patient}</div></div>
-      <div><div class="adf-lbl">DOB</div><div class="adf-val">${d.dob}</div></div>
-      <div><div class="adf-lbl">MRN</div><div class="adf-val">${d.mrn}</div></div>
-      <div><div class="adf-lbl">Received</div><div class="adf-val">${d.received}</div></div>
-      <div><div class="adf-lbl">Age</div><div class="adf-val" style="color:${s.c}">${d.age}</div></div>
-      <div><div class="adf-lbl">Requester</div><div class="adf-val">${d.requester}</div></div>
-    </div>
-    <div class="d-sec-title">HIPAA Verification Checkpoint</div>
-    <div style="background:#F8F8FB;border-radius:8px;padding:10px 12px;margin:4px 0 14px 0">
-      ${d.hipaa.map(h=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #eeece8">
-        <div style="width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:${h.ok?'#eaf3de':'#fde8e8'};color:${h.ok?'#3b6d11':'#a32d2d'}">${h.ok?'✓':'✗'}</div>
-        <div style="flex:1;font-size:12px"><span style="color:#333;font-weight:500">${h.k}</span> — <span style="color:#555">${h.v}</span></div>
-      </div>`).join('')}
-    </div>
-    <div class="d-sec-title">Document Packet</div>
-    <div style="font-size:12px;color:#444;margin:4px 0 14px 0">${d.packet.map(p=>`<div style="padding:4px 0">• ${p}</div>`).join('')}</div>
-    <div class="d-sec-title">Chain of Custody</div>
-    <div style="margin:6px 0 14px 0">
-      ${d.trail.map(t=>`<div style="display:flex;gap:10px;padding:5px 0;border-bottom:1px solid #f0f0ee"><div style="min-width:56px;font-size:11px;color:#575A66;font-weight:500">${t.t}</div><div style="font-size:12px;color:#333">${t.d}</div></div>`).join('')}
-    </div>
-    <div class="acc-grace" style="margin-top:14px">
-      <div class="acc-grace-hdr">✦ Grace Analysis</div>
-      <div class="acc-grace-body">${d.grace}<br><br><strong>Recommended:</strong> ${d.rec}</div>
-    </div>
-    ${buildActionArea(act.primary, act.alts, {module:'medrecords', rowId:id})}
-  `;
-  document.getElementById('drawer').classList.add('open');
+  const sv = statusVariant[d.status] || statusVariant['Open'];
+
+  /* DOB display — append "• Age N" using simple year diff (matches the
+     other tid-mode drawers' computeAge approach). */
+  const dobMatch = d.dob && d.dob.match(/^\d{1,2}\/\d{1,2}\/(\d{4})$/);
+  const ageNum   = dobMatch ? (2026 - parseInt(dobMatch[1],10)) : null;
+  const dobDisplay = ageNum ? (d.dob + ' • Age ' + ageNum) : d.dob;
+
+  /* Strip "MRN-" prefix so the value cell shows just the number (matches
+     Figma's "10472" / "10518" / etc.). */
+  const mrnDisplay = (d.mrn || '').replace(/^MRN-/, '');
+
+  /* ROI summary line — "{requestType} · {requester}" (e.g. "ROI — Full
+     Records · Drake & Associates (Legal)"). */
+  const roiSummary = d.requestType + ' · ' + d.requester;
+
+  /* Hide legacy header labels — .drawer.tid-mode hides .drawer-header via
+     CSS, but defensive in case the user reopens after a non-tid-mode
+     drawer left these visible. */
+  const titleEl = document.getElementById('drawerTitle');
+  const subEl   = document.getElementById('drawerSub');
+  if (titleEl) titleEl.style.display = 'none';
+  if (subEl)   subEl.style.display   = 'none';
+
+  /* Close FAB (canonical drawer close: rest + hover SVGs) */
+  const mrdCloseFab = ''
+    + '<button class="fab fab-close" type="button" onclick="closeDrawer()" aria-label="Close drawer">'
+    +   '<svg class="fab-rest" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="11.5" stroke="#DFE2EC" stroke-miterlimit="10" stroke-linecap="round"/><path d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16" stroke="#575A66" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    +   '<svg class="fab-hover" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="11.5" stroke="#0063FF" stroke-miterlimit="10" stroke-linecap="round"/><path d="M16 16L12 12M12 12L8 8M12 12L16 8M12 12L8 16" stroke="#0063FF" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    + '</button>';
+
+  /* Sticky header — name + secondary line (status chip + ROI summary) + close */
+  const mrdHeader = ''
+    + '<div class="tid-header">'
+    +   '<div class="tid-header-stack">'
+    +     '<div class="tid-name">' + d.patient + '</div>'
+    +     '<div class="mrd-secondary">'
+    +       '<span class="gl-status-pill ' + sv.cls + '">' + sv.lbl + '</span>'
+    +       '<span class="mrd-secondary-text">' + roiSummary + '</span>'
+    +     '</div>'
+    +   '</div>'
+    +   mrdCloseFab
+    + '</div>';
+
+  /* Patient Details — 3 rows × 2 cells (last row's second cell is empty
+     per Figma: only DOB shows, the Specialty cell is hidden in design). */
+  const mrdDetailsCard = ''
+    + '<div class="tid-card">'
+    +   '<div class="tid-card-head">Patient Details</div>'
+    +   '<div class="tid-card-grid">'
+    +     '<div class="tid-card-row">'
+    +       '<div class="tid-cell"><div class="tid-cell-lbl">MRN</div><div class="tid-cell-val">' + mrnDisplay + '</div></div>'
+    +       '<div class="tid-cell"><div class="tid-cell-lbl">Received</div><div class="tid-cell-val">' + d.received + '</div></div>'
+    +     '</div>'
+    +     '<div class="tid-card-row">'
+    +       '<div class="tid-cell"><div class="tid-cell-lbl">Age</div><div class="tid-cell-val">' + d.age + '</div></div>'
+    +       '<div class="tid-cell"><div class="tid-cell-lbl">Requester</div><div class="tid-cell-val">' + d.requester + '</div></div>'
+    +     '</div>'
+    +     '<div class="tid-card-row">'
+    +       '<div class="tid-cell"><div class="tid-cell-lbl">DOB</div><div class="tid-cell-val">' + dobDisplay + '</div></div>'
+    +       '<div class="tid-cell"></div>'
+    +     '</div>'
+    +   '</div>'
+    + '</div>';
+
+  /* HIPAA Verification — list of detail rows w/ confirm icon (good = green
+     check, bad = red X). Uses inline SVGs to avoid extra symbol defs. */
+  const checkSvg = '<svg viewBox="0 0 12 12" width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2.5 6.5L4.5 8.5L9.5 3.5" stroke="#3b6d11" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const xSvg     = '<svg viewBox="0 0 12 12" width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 3L9 9M9 3L3 9" stroke="#a32d2d" stroke-width="1.6" stroke-linecap="round"/></svg>';
+  const hipaaRows = (d.hipaa || []).map(function(h){
+    const iconCls = h.ok ? 'good' : 'bad';
+    const iconInner = h.ok ? checkSvg : xSvg;
+    return ''
+      + '<div class="mrd-hipaa-row">'
+      +   '<div class="mrd-hipaa-detail">'
+      +     '<div class="mrd-hipaa-detail-lbl">' + h.k + '</div>'
+      +     '<div class="mrd-hipaa-detail-val">' + h.v + '</div>'
+      +   '</div>'
+      +   '<div class="mrd-confirm-icon ' + iconCls + '">' + iconInner + '</div>'
+      + '</div>';
+  }).join('');
+  const mrdHipaaCard = ''
+    + '<div class="tid-card">'
+    +   '<div class="tid-card-head">HIPAA Verification Checkpoint</div>'
+    +   '<div class="mrd-hipaa-list">' + hipaaRows + '</div>'
+    + '</div>';
+
+  /* Document Packet — bullet list inside the .tid-card body */
+  const packetItems = (d.packet || []).map(function(p){
+    return '<div class="mrd-packet-item">• ' + p + '</div>';
+  }).join('');
+  const mrdPacketCard = ''
+    + '<div class="tid-card">'
+    +   '<div class="tid-card-head">Document Packet</div>'
+    +   '<div class="mrd-packet-list">' + packetItems + '</div>'
+    + '</div>';
+
+  /* Chain of Custody — dated step rows (date column + body) */
+  const trailRows = (d.trail || []).map(function(t){
+    return ''
+      + '<div class="mrd-trail-row">'
+      +   '<div class="mrd-trail-date">' + t.t + '</div>'
+      +   '<div class="mrd-trail-step">' + t.d + '</div>'
+      + '</div>';
+  }).join('');
+  const mrdTrailCard = ''
+    + '<div class="tid-card">'
+    +   '<div class="tid-card-head">Chain of Custody</div>'
+    +   '<div class="mrd-trail-list">' + trailRows + '</div>'
+    + '</div>';
+
+  /* Grace Analysis card — body-only (recommendation folded into body
+     per v27.11 unification) */
+  const mrdGraceBody = d.grace + (d.rec ? ' ' + d.rec : '');
+  const mrdGraceCard = ''
+    + '<div class="gl-grace-analysis-card">'
+    +   '<div class="gl-grace-analysis-hdr">'
+    +     '<span class="gl-grace-analysis-hdr-g">' + TID_SVG_GRACE_G_SMALL + '</span>'
+    +     '<span class="gl-grace-analysis-hdr-lbl">Grace Analysis</span>'
+    +   '</div>'
+    +   '<div class="gl-grace-analysis-body">' + mrdGraceBody + '</div>'
+    + '</div>';
+
+  /* Action stack — buildActionArea drives the two-step confirm decision */
+  const mrdActionArea = buildActionArea(act.primary, act.alts, { module:'medrecords', rowId:id });
+
+  /* Final body — .tid wrapper, content section (.fud-details) holds all
+     cards + Grace Analysis with bottom border, action stack lives in
+     .tid-actions on the other side of the divider. */
+  const body = ''
+    + '<div class="tid">'
+    +   mrdHeader
+    +   '<div class="fud-details">'
+    +     mrdDetailsCard
+    +     mrdHipaaCard
+    +     mrdPacketCard
+    +     mrdTrailCard
+    +     mrdGraceCard
+    +   '</div>'
+    +   '<div class="tid-actions">' + mrdActionArea + '</div>'
+    + '</div>';
+
+  const drawer = document.getElementById('drawer');
+  const drawerBody = document.getElementById('drawerBody');
+  drawer.classList.add('tid-mode');
+  drawerBody.innerHTML = body;
+  drawer.classList.add('open');
   document.getElementById('drawerOverlay').classList.add('open');
+  drawerBody.scrollTop = 0;
 }
 
 /* ─── Referrals row drawer ──────────────────────────────────── */
